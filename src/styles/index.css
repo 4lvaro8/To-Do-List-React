@@ -1,12 +1,41 @@
+.title {
+    font-size: 50px;
+    color: rgb(255, 116, 116);
+}
+.tareas {
+    border: 1px solid rgb(182, 182, 182);
+    border-radius: 5px;
+    box-shadow: 0px 5px 5px rgb(121, 121, 121);
+    padding: 10px;
+}
 
-/* 
+.toDo-item {
+    min-width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    font-size: 20px;
+    border-bottom: 1px solid rgb(182, 182, 182);
+    padding: 15px;
+    color: rgb(88, 88, 88);
+}
 
-    You can write your own styles here...
-    
-    
-    ...Or you can use the import command to include 
-    other sylesheets into your bunde as well, e.j:
-    
-    import 'relative/path/to/stylesheet.scss';
 
-*/
+span.toDo-text {
+    transition: opacity 0.25s ease-in-out;
+}
+
+.deletetrash {
+    margin-left: auto;
+    color: rgb(121, 121, 121);
+    display: none;
+}
+.deletetrash:hover {
+    color: rgb(255, 75, 75);
+}
+.toDo-item:hover .deletetrash{
+    display: block;
+}
