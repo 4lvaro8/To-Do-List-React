@@ -169,68 +169,6 @@ const TodoList = () => {
     }
   };
 
-  const handleTodoCheck = (id) => {
-    console.log("Checkbox clicked, id:", id);
-
-    const updatedTodoList = todoList.map((todo) => {
-      if (todo.id === id) {
-        console.log("Todo found, updating is_done");
-        return { ...todo, is_done: !todo.is_done };
-      }
-      return todo;
-    });
-
-    console.log("Updated todo list:", updatedTodoList);
-
-    return fetch(`${baseApiUrl}/todos/${id}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        label: updatedTodoList.find((todo) => todo.id === id).label,
-        is_done: updatedTodoList.find((todo) => todo.id === id).is_done,
-      }),
-    })
-      .then((response) => {
-        if (response.ok) {
-          console.log("Fetch request successful");
-          return response.json();
-        }
-        throw Error(response.status + "! Something Went Wrong");
-      })
-      .then(() => {
-        console.log("Updating state with updated todo list");
-        setTodoList(updatedTodoList);
-      })
-      .catch((err) => {
-        console.log("Error", err);
-      });
-  };
-
-  const createTodo = (todoData) => {
-    console.log(todoData);
-    return fetch(`${baseApiUrl}/todos/${username}`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(todoData),
-    })
-      .then((response) => {
-        if (response.ok) {
-          return response.text().then((text) => (text ? JSON.parse(text) : {}));
-        }
-        throw Error(response.statusText + "! Something went wrong");
-      })
-      .then(() => {
-        alert("Todo task created successfully");
-      })
-      .catch((err) => {
-        console.log("Error", err);
-      });
-  };
-
   useEffect(() => {
     if (isUserCreated) {
       fetchTodos();
@@ -245,15 +183,9 @@ const TodoList = () => {
           value={username}
           onChange={(e) => setUsername(e.target.value)}
           placeholder="Enter your Username"
-          onKeyDown={(e) => {
-            if (e.key === "Enter") {
-              createUser();
-            }
-          }}
         />
-        <button className="button" onClick={deleteUser}>
-          Delete User
-        </button>
+		{isUserCreated ? <button className="button" onClick={deleteUser}>delete</button> : <button className="button" onClick={createUser}>Create User</button> }
+        
       </div>
 
       {isUserCreated && (
@@ -279,12 +211,6 @@ const TodoList = () => {
         {todoList !== undefined &&
           todoList.map((todo) => (
             <li key={todo.id} className="todo-item">
-              <input
-                type="checkbox"
-                className="checkbox"
-                checked={todo.is_done}
-                onChange={() => handleTodoCheck(todo.id)}
-              />
               {todo.label}
               <i
                 className="fa fa-trash delete-icon"
