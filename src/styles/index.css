@@ -97,3 +97,7 @@ li button {
 li button:hover {
   background-color: #c9302c;
 }
+p {
+  text-align: center;
+  margin-top: 10px;
+}

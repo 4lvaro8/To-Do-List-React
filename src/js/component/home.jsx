@@ -79,58 +79,61 @@ const Home = () => {
 
 	const deleteAllTasks = () => {
 		const deletePromises = tasks.map((task) =>
-		  fetch(`https://playground.4geeks.com/todo/todos/${task.id}`, {
-			method: "DELETE",
-			headers: {
-			  "accept": "application/json",
-			},
-		  })
+			fetch(`https://playground.4geeks.com/todo/todos/${task.id}`, {
+				method: "DELETE",
+				headers: {
+					"accept": "application/json",
+				},
+			})
 		);
-	
+
 		Promise.all(deletePromises)
-		  .then((responses) => {
-			const ok = responses.every((response) => response.ok);
-			if (ok) {
-			  setTasks([]);
-			} else {
-			  throw new error(responses.statusText);
-			}
-		  })
-		  .catch((error) => console.log("Error:", error));
-	  };
+			.then((responses) => {
+				const ok = responses.every((response) => response.ok);
+				if (ok) {
+					setTasks([]);
+				} else {
+					throw new error(responses.statusText);
+				}
+			})
+			.catch((error) => console.log("Error:", error));
+	};
 
 
 	return (
-		isUserCreated ? <div className="task-container d-flex flex-column container-fluid w-50">
-			<h1 className="title">Todo List App</h1>
-			<form
-				onSubmit={(e) => {
-					e.preventDefault();
-					addTask();
-				}}
-			>
-				<div className="input-section">
-					<input
-						type="text"
-						value={newTask}
-						onChange={(e) => { setNewTask(e.target.value) }}
-						placeholder="New task"
-					/>
-					<button className="addButton" type="submit">Add Task</button>
-				</div>
-			</form>
+		<>
+			{isUserCreated ? <div className="task-container d-flex flex-column container-fluid w-50">
+				<h1 className="title">Todo List App</h1>
+				<form
+					onSubmit={(e) => {
+						e.preventDefault();
+						addTask();
+					}}
+				>
+					<div className="input-section">
+						<input
+							type="text"
+							value={newTask}
+							onChange={(e) => { setNewTask(e.target.value) }}
+							placeholder="New task"
+						/>
+						<button className="addButton" type="submit">Add Task</button>
+					</div>
+				</form>
 
-			<ul>
-				{tasks.map((task) => (
-					<li key={task.id}>
-						{task.label}
-						<button className="deleteButton" onClick={() => deleteTask(task.id)}>Delete</button>
-					</li>
-				))}
-			</ul>
+				<ul>
+					{tasks.map((task) => (
+						<li key={task.id}>
+							{task.label}
+							<button className="deleteButton" onClick={() => deleteTask(task.id)}>Delete</button>
+						</li>
+					))}
+				</ul>
 
-			<button className="deleteAllButton" onClick={deleteAllTasks}>Clear All Tasks</button>
-		</div> : ""
+				<button className="deleteAllButton" onClick={deleteAllTasks}>Clear All Tasks</button>
+				<p><small>{tasks.length} Que haceres restantes{tasks.length == 0 ? ", agregue una tarea" : ""}</small></p>
+			</div> : <p>Cargando..</p>}
+		</>
 	);
 };
 
