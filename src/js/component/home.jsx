@@ -12,24 +12,25 @@ const Home = () => {
 		fetchUser();
 	}, []);
 
+
 	const fetchUser = () => {
 		fetch(`${baseApiUrl}/users/${username}`, {
-			headers: {
-				"accept": "application/json",
-			},
+		  headers: {
+			"accept": "application/json",
+		  },
 		})
-			.then((response) => {
-				if (!response.ok) {
-					throw new Error(response.statusText);
-				}
-				return response.json();
-			})
-			.then((data) => {
-				console.log(data);
-				setIsUserCreated(true);
-			})
-			.catch((error) => console.log("Error fetching user:", error));
-	};
+		  .then((response) => {
+			if (!response.ok) {
+			  throw new Error(response.statusText);
+			}
+			return response.json();
+		  })
+		  .then((data) => {
+			setIsUserCreated(true);
+			console.log(data);
+		  })
+		  .catch((error) => console.log("Error fetching user:", error));
+	  };
 
 
 	const addTask = () => {
@@ -132,7 +133,7 @@ const Home = () => {
 
 				<button className="deleteAllButton" onClick={deleteAllTasks}>Clear All Tasks</button>
 				<p><small>{tasks.length} Que haceres restantes{tasks.length == 0 ? ", agregue una tarea" : ""}</small></p>
-			</div> : <p>Cargando..</p>}
+			</div> : <p>Cargando...</p>}
 		</>
 	);
 };
